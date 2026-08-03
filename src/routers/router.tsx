@@ -11,6 +11,7 @@ export const RoutesTree = () => (
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/login" element={<LoginPage />} />
+
       <Route path="/admin" element={<AdminPage />}>
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />

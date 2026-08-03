@@ -1,6 +1,24 @@
+import { supabase } from "../supabase/supabaseClient";
 import colegio from "../assets/ctppococi.jpeg";
+import { useState } from "react";
 
 export default function LoginPage() {
+  const handleLogin = async () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.log(error.message);
+    } else {
+      console.log("Bienvenido");
+    }
+  };
+
   return (
     <div className="flex justify-center py-5 bg-indigo-50 ">
       <form className="max-w-96 w-full text-center border border-gray-300/60 rounded-2xl px-8 bg-indigo-100">
