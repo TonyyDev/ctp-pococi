@@ -11,7 +11,7 @@ export default function AdminPage() {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "flex items-center px-4 py-2 h-10 rounded-lg bg-blue-900 text-white font-semibold shadow-lg"
+              ? "flex items-center px-4 py-2 h-10 rounded-lg bg-blue-700 text-white font-semibold shadow-lg"
               : "flex items-center px-4 py-2 h-10 rounded-lg bg-gray-100 hover:bg-indigo-200"
           }
           to="dashboard"
@@ -22,7 +22,7 @@ export default function AdminPage() {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "flex items-center px-4 py-2 h-10 rounded-lg bg-blue-900 text-white font-semibold shadow-lg"
+              ? "flex items-center px-4 py-2 h-10 rounded-lg bg-blue-700 text-white font-semibold shadow-lg"
               : "flex items-center px-4 py-2 h-10 rounded-lg bg-gray-100 hover:bg-indigo-200"
           }
           to="becas"

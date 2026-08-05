@@ -1,6 +1,10 @@
 import SearchRoundedIcon from "@iconify-react/material-symbols-light/search-rounded";
+import ModalBeca from "../components/ModalBeca";
+import { useState } from "react";
 
 export default function BecasPage() {
+  const [isopen, setIsOpen] = useState(false);
+
   return (
     <div className="px-4">
       <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-md">
@@ -9,9 +13,13 @@ export default function BecasPage() {
           <span className="mb-6 text-2xl font-bold text-gray-800">
             Gestión de Becas
           </span>
-          <button className="flex items-center h-9 rounded-xl bg-blue-900 px-5 text-sm text-gray-300 transition-colors hover:bg-blue-500">
+          <button
+            className="flex items-center h-9 rounded-xl bg-blue-700 px-5 text-sm text-gray-300 transition-colors hover:bg-blue-500"
+            onClick={() => setIsOpen(true)}
+          >
             + Nueva solicitud
           </button>
+          {isopen && <ModalBeca onClose={() => setIsOpen(false)} />}
         </div>
 
         {/* Controles */}

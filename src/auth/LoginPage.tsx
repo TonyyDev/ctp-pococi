@@ -1,27 +1,38 @@
 import { supabase } from "../supabase/supabaseClient";
 import colegio from "../assets/ctppococi.jpeg";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router";
 
 export default function LoginPage() {
-  const handleLogin = async () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+  const handlelogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
+      setError(error.message);
       console.log(error.message);
     } else {
+      navigate("/admin");
       console.log("Bienvenido");
     }
   };
 
   return (
     <div className="flex justify-center py-5 bg-indigo-50 ">
-      <form className="max-w-96 w-full text-center border border-gray-300/60 rounded-2xl px-8 bg-indigo-100">
+      <form
+        className="max-w-96 w-full text-center border border-gray-300/60 rounded-2xl px-8 bg-indigo-100"
+        onSubmit={handlelogin}
+      >
         <img src={colegio} className="py-5" />
         <h1 className="text-gray-900 text-3xl mt-10 font-bold">Login</h1>
         <p className="text-gray-500 text-sm mt-2">Please sign in to continue</p>
@@ -34,8 +45,6 @@ export default function LoginPage() {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
               d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z"
               fill="#6B7280"
             />
@@ -43,6 +52,7 @@ export default function LoginPage() {
           <input
             type="email"
             placeholder="Correo"
+            name="email"
             className="bg-transparent text-gray-500 placeholder-gray-500 outline-none text-sm w-full h-full"
             required
           />
@@ -64,6 +74,7 @@ export default function LoginPage() {
           <input
             type="password"
             placeholder="Password"
+            name="password"
             className="bg-transparent text-gray-500 placeholder-gray-500 outline-none text-sm w-full h-full"
             required
           />
@@ -73,7 +84,7 @@ export default function LoginPage() {
             Olvidaste la contraseña?
           </a>
         </div>
-
+        {error && <p className="mt-2 text-sm text-red-600"> {error} </p>}
         <button
           type="submit"
           className="mt-2 w-full h-11 rounded-full text-white bg-blue-800 hover:opacity-90 transition-opacity"
@@ -82,7 +93,7 @@ export default function LoginPage() {
         </button>
         <p className="text-gray-500 text-sm mt-3 mb-11">
           No tienes una cuenta?{" "}
-          <a className="text-blue-800" href="#">
+          <a className="text-blue-700" href="#">
             contacta un administrador
           </a>
         </p>
