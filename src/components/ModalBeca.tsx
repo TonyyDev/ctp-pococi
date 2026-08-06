@@ -1,10 +1,61 @@
+import { useState } from "react";
+import { useGrados } from "../hooks/useGrados";
+import { useRecorridos } from "../hooks/useRecorridos";
 import SelectField from "./SelectField";
+import { useSecciones } from "../hooks/useSecciones";
+import { useRutas } from "../hooks/useRutas";
 
 interface ModalProps {
   onClose: () => void;
 }
 
+interface SolicitudBeca {
+  nombre: string;
+  cedula: string;
+  grado_id?: number;
+  seccion_id?: number;
+  ruta_id?: number;
+  recorrido_id?: number;
+  lugar_residencia: string;
+  condicion_sinirube: string;
+  estado_beca: string;
+  observaciones: string;
+}
+
 export default function ModalBeca({ onClose }: ModalProps) {
+  const [nombre, setNombre] = useState("");
+  const [cedula, setCedula] = useState("");
+  const [lugarResidencia, setLugarResidencia] = useState("");
+
+  const [condicionSinirube, setCondicionSinirube] = useState("");
+  const [estadoBeca, setEstadoBeca] = useState("pendiente");
+
+  const [observaciones, setObservaciones] = useState("");
+
+  const { grados } = useGrados();
+  const { rutas } = useRutas();
+
+  const [gradoId, setGradoId] = useState<number>();
+  const [seccionId, setSeccionId] = useState<number>();
+  const [rutaId, setRutaId] = useState<number>();
+  const [recorridoId, setRecorridoId] = useState<number>();
+
+  const { secciones } = useSecciones(gradoId);
+  const { recorridos } = useRecorridos(rutaId);
+
+  const solicitud = {
+    nombre,
+    cedula,
+    grado_id: gradoId,
+    seccion_id: seccionId,
+    recorrido_id: recorridoId,
+    lugarResidencia,
+    condicion_sinirube: condicionSinirube,
+    estado_beca: estadoBeca,
+    observaciones,
+    ano_lectivo: new Date().getFullYear(),
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md p-4">
       <div className="w-full max-w-5xl overflow-hidden rounded-2xl bg-white shadow-2xl">
@@ -38,6 +89,8 @@ export default function ModalBeca({ onClose }: ModalProps) {
             focus:ring-4
             focus:ring-blue-100
             "
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
               />
             </div>
 
@@ -57,6 +110,8 @@ export default function ModalBeca({ onClose }: ModalProps) {
             focus:ring-4
             focus:ring-blue-100
             "
+                value={cedula}
+                onChange={(e) => setCedula(e.target.value)}
               />
             </div>
 
@@ -75,11 +130,21 @@ export default function ModalBeca({ onClose }: ModalProps) {
             focus:ring-4
             focus:ring-blue-100
             "
+                value={gradoId ?? ""}
+                onChange={(e) => {
+                  const id = Number(e.target.value);
+
+                  setGradoId(id);
+                  setSeccionId(undefined);
+                }}
               >
-                <option>Seleccione...</option>
-                <option>7mo</option>
-                <option>8vo</option>
-                <option>9no</option>
+                <option value="">Seleccione un grado</option>
+
+                {grados.map((grado) => (
+                  <option key={grado.id} value={grado.id}>
+                    {grado.nombre}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -98,11 +163,20 @@ export default function ModalBeca({ onClose }: ModalProps) {
             focus:ring-4
             focus:ring-blue-100
             "
+                value={seccionId ?? ""}
+                onChange={(e) => setSeccionId(Number(e.target.value))}
+                disabled={!gradoId}
               >
-                <option>Seleccione...</option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
+                <option value="">
+                  {gradoId
+                    ? "Seleccione una sección"
+                    : "Seleccione primero un grado"}
+                </option>
+                {secciones.map((seccion) => (
+                  <option key={seccion.id} value={seccion.id}>
+                    {seccion.nombre}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -122,6 +196,8 @@ export default function ModalBeca({ onClose }: ModalProps) {
             focus:ring-4
             focus:ring-blue-100
             "
+                value={lugarResidencia}
+                onChange={(e) => setLugarResidencia(e.target.value)}
               />
             </div>
           </div>
@@ -133,12 +209,66 @@ export default function ModalBeca({ onClose }: ModalProps) {
           </h3>
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            <SelectField label="Número de ruta" />
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                Numero de ruta
+              </label>
 
-            <SelectField label="Recorrido" />
+              <select
+                className="
+            w-full rounded-xl border border-gray-300
+            bg-gray-50 px-4 py-3
+            outline-none transition
+            focus:border-blue-500
+            focus:bg-white
+            focus:ring-4
+            focus:ring-blue-100
+            "
+              >
+                <option>Seleccione la seccion</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                Recorrido
+              </label>
+
+              <select
+                className="
+            w-full rounded-xl border border-gray-300
+            bg-gray-50 px-4 py-3
+            outline-none transition
+            focus:border-blue-500
+            focus:bg-white
+            focus:ring-4
+            focus:ring-blue-100
+            "
+              >
+                <option>Seleccione la seccion</option>
+              </select>
+            </div>
 
             <div className="md:col-span-2">
-              <SelectField label="Encargado de la ruta" />
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Encargado de la ruta
+                </label>
+
+                <select
+                  className="
+            w-full rounded-xl border border-gray-300
+            bg-gray-50 px-4 py-3
+            outline-none transition
+            focus:border-blue-500
+            focus:bg-white
+            focus:ring-4
+            focus:ring-blue-100
+            "
+                >
+                  <option>Seleccione la seccion</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -170,6 +300,8 @@ export default function ModalBeca({ onClose }: ModalProps) {
             focus:ring-4
             focus:ring-blue-100
             "
+                value={observaciones}
+                onChange={(e) => setObservaciones(e.target.value)}
               />
             </div>
           </div>

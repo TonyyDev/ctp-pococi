@@ -111,6 +111,12 @@ export default function App() {
             </button>
           </div>
 
+          {loading && (
+            <div className="mt-6 rounded-lg border border-gray-200 bg-gray-200 px-5 py-4 text-sm font-medium text-slate-800">
+              <p>Cargando ...</p>
+            </div>
+          )}
+
           {/* Mensaje de error */}
           {mensaje && (
             <div className="mt-6 rounded-lg border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium text-red-700">
@@ -199,6 +205,7 @@ export default function App() {
                 </div>
 
                 {/* Mensaje según el estado */}
+
                 {resultado.estado_beca.toLowerCase() === "pendiente" && (
                   <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
                     <span className="font-semibold">
