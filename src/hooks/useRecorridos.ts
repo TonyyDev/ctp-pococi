@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getSecciones } from "../api/secciones";
+import { getRecorrido } from "../api/recorridos";
 
 export interface Recorrido {
   id: number;
@@ -8,6 +9,8 @@ export interface Recorrido {
 }
 
 export function useRecorridos(rutaId?: number) {
+  console.log("rutaid desde useRecorrido", rutaId);
+
   const [recorridos, setRecorridos] = useState<Recorrido[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -16,13 +19,13 @@ export function useRecorridos(rutaId?: number) {
     async function loadRecorridos() {
       setLoading(true);
 
-      if (rutaId) {
+      if (!rutaId) {
         setRecorridos([]);
         return;
       }
 
       try {
-        const data = await getSecciones();
+        const data = await getRecorrido(rutaId);
         setRecorridos(data);
       } catch (error) {
         console.log(error);

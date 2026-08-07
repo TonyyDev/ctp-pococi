@@ -224,8 +224,23 @@ export default function ModalBeca({ onClose }: ModalProps) {
             focus:ring-4
             focus:ring-blue-100
             "
+                value={rutaId ?? ""}
+                onChange={(e) => {
+                  const id = Number(e.target.value);
+                  console.log("ruta", id);
+
+                  setRutaId(id);
+
+                  // Limpia el recorrido anterior
+                  setRecorridoId(undefined);
+                }}
               >
                 <option>Seleccione la seccion</option>
+                {rutas.map((ruta) => (
+                  <option key={ruta.id} value={ruta.id}>
+                    {ruta.numero_ruta}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -244,8 +259,21 @@ export default function ModalBeca({ onClose }: ModalProps) {
             focus:ring-4
             focus:ring-blue-100
             "
+                value={recorridoId ?? ""}
+                onChange={(e) => setRecorridoId(Number(e.target.value))}
+                disabled={!rutaId}
               >
-                <option>Seleccione la seccion</option>
+                <option value="">
+                  {rutaId
+                    ? "Seleccione un recorrido"
+                    : "Seleccione primero una ruta"}
+                </option>
+
+                {recorridos.map((recorrido) => (
+                  <option key={recorrido.id} value={recorrido.id}>
+                    {recorrido.nombre}
+                  </option>
+                ))}
               </select>
             </div>
 
