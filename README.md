@@ -1,52 +1,56 @@
-# React + TypeScript + Vite
+# 🎓 CTP-Pococi — Transportation Scholarship Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CTP-Pococi is a web application designed to manage the student transportation scholarship process at Colegio Técnico Profesional de Pococí in Costa Rica.
 
-Currently, two official plugins are available:
+The system aims to modernize and simplify the management of transportation scholarships by replacing manual processes with a centralized web-based platform.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+- 🎓 Transportation scholarship management
+- 🔎 Student information lookup
+- 📋 Scholarship application management
+- ✅ Scholarship approval and rejection workflow
+- 📊 Centralized management of scholarship information
+- 🖥️ Web-based interface for administrative users
+- 📱 Responsive user interface
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## 🎯 Project Purpose
 
-Note: This will impact Vite dev & build performances.
+The project was created to address the challenges associated with managing a large number of transportation scholarship applications through manual processes.
 
-## CTP - Pococi
-Es una aplicacion encargada de llevar el control del sistema de becas de transporte del colegio de pococi
+By moving the process to a web application, the system aims to make scholarship management more organized, efficient, and accessible for the people responsible for the process.
 
+## 🛠️ Technologies
 
-```js
-pnpm install
-```
+- **React**
+- **TypeScript**
+- **Vite**
+- **Tailwind CSS**
+- **Supabase**
+- **PostgreSQL**
+- **ESLint**
+- **pnpm**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🏗️ Architecture
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The application follows a modern frontend architecture built with React and TypeScript.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+```text
+┌──────────────────────────┐
+│        React UI          │
+│      TypeScript          │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│        Supabase          │
+│                          │
+│  Authentication          │
+│  Database                │
+│  Row Level Security      │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│       PostgreSQL         │
+└──────────────────────────┘
