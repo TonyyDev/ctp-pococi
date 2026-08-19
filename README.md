@@ -109,3 +109,8 @@ ctp-pococi/
 ├── vite.config.ts
 └── README.md
 ```
+```text
+Author: Anthony Barquero
+Email: thony.dev@hotmail.com
+```
+
